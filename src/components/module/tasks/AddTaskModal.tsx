@@ -57,6 +57,8 @@ export function AddTaskModal() {
     form.reset();
   };
 
+  console.log({ isError, isLoading, data });
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
