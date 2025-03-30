@@ -5,7 +5,12 @@ import { useGetTasksQuery } from "@/redux/api/baseApi";
 import { ITask } from "@/types";
 
 export default function Tasks() {
-  const { data, isError, isLoading } = useGetTasksQuery(undefined);
+  const { data, isError, isLoading } = useGetTasksQuery(undefined, {
+    pollingInterval: 30000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
 
   const tasks = data?.tasks;
 
