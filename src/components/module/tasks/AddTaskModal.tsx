@@ -31,30 +31,34 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { addTask } from "@/redux/features/task/taskSlice";
-import { selectUsers } from "@/redux/features/user/userSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { ITask } from "@/types";
+import { useCreateTasksMutation } from "@/redux/api/baseApi";
+// import { ITask } from "@/types";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 export function AddTaskModal() {
-  
   const [open, setOpen] = useState(false);
-  const users = useAppSelector(selectUsers);
   const form = useForm();
-  const dispatch = useAppDispatch();
 
-  const formSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(addTask(data as ITask));
+  const [createTask, { isError, isLoading, data }] = useCreateTasksMutation();
+
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const taskData = {
+      ...data,
+      isCompleted: false,
+    };
+
+    const res = await createTask(taskData).unwrap();
     setOpen(false);
+
+    console.log("Inside submit function", res);
     form.reset();
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Add Task</Button>
       </DialogTrigger>
@@ -99,7 +103,7 @@ export function AddTaskModal() {
             />
 
             {/* ----------Task Assigned to Field------------ */}
-            <FormField
+            {/*  <FormField
               control={form.control}
               name="assignedTo"
               render={({ field }) => (
@@ -124,7 +128,7 @@ export function AddTaskModal() {
                   </Select>
                 </FormItem>
               )}
-            />
+            /> */}
             {/* ----------Priority Field------------ */}
             <FormField
               control={form.control}

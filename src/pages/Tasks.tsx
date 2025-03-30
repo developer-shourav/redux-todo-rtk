@@ -1,4 +1,4 @@
-// import { AddTaskModal } from "@/components/module/tasks/AddTaskModal";
+import { AddTaskModal } from "@/components/module/tasks/AddTaskModal";
 import TaskCard from "@/components/module/tasks/TaskCard";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetTasksQuery } from "@/redux/api/baseApi";
@@ -7,7 +7,7 @@ import { ITask } from "@/types";
 export default function Tasks() {
   const { data, isError, isLoading } = useGetTasksQuery(undefined);
 
-  const tasks  = data?.tasks;
+  const tasks = data?.tasks;
 
   return (
     <div className="mx-auto max-w-7xl px-5 mt-10">
@@ -21,7 +21,7 @@ export default function Tasks() {
             <TabsTrigger value="high">High</TabsTrigger>
           </TabsList>
         </Tabs>
-        {/*         <AddTaskModal /> */}
+        <AddTaskModal />
       </div>
       <div className="space-y-5 mt-5">
         {isLoading && <div>Loading....</div>}
